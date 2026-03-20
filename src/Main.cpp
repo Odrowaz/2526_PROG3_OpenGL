@@ -1,10 +1,13 @@
 #include <string>
 #include <format>
 #include "XWindow.h"
+#include "Ex01TriangleDraw.h"
 
 int main() 
 {
 	XWindow Window{800, 600, "Hello OpenGL"};
+
+	Ex01TriangleDraw Scene;
 
 	while(Window.IsOpened()) 
 	{
@@ -20,6 +23,8 @@ int main()
 			Window.SetTitle(Title);
 			TitleUpdateElapsed -= TitleUpdateMaxTime;
 		}
+
+		Scene.Update(DeltaTime);
 		
 		Window.Update();
 	}
