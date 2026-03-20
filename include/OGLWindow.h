@@ -3,11 +3,11 @@
 
 typedef struct GLFWwindow GLFWwindow;
 
-class XWindow 
+class OGLWindow 
 {
 public:
-    XWindow(int InWidth, int InHeight, const std::string& InTitle);
-    ~XWindow();
+    OGLWindow(int InWidth, int InHeight, const std::string& InTitle);
+    ~OGLWindow();
     void Update();
     bool IsOpened() const;
     void SetTitle(const std::string& InTitle);

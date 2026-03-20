@@ -8,7 +8,7 @@ public:
     ~Ex03QuadIndexDraw();
     void Update(float InDeltaTime);
 private:
-    GLuint ProgramId;
+    class OGLProgram* Program;
     GLuint Vao;
     GLuint Vbo;
     GLuint Ebo;

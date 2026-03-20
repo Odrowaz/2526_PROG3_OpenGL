@@ -1,81 +1,10 @@
 #include "Ex03QuadIndexDraw.h"
-#include <fstream>
 #include <vector>
-#include <iostream>
-
-static std::string ReadFile(const std::string& InPath)
-{
-    std::ifstream InputStream(InPath, std::ios::ate);
-    size_t FileSize = InputStream.tellg(); //cursor position in bytes
-
-    std::string Text;
-    Text.resize(FileSize);
-
-    InputStream.seekg(0, std::ios::beg);
-    InputStream.read(&Text[0], FileSize);
-
-    InputStream.close();
-    return Text;
-}
-
-static GLuint CreateShader(const std::string& InPath, GLuint InShaderType)
-{
-    std::string Text = ReadFile(InPath);
-    const char* ShaderSource = Text.c_str();
-
-    GLuint ShaderId = glCreateShader(InShaderType);
-    glShaderSource(ShaderId, 1, &ShaderSource, NULL);
-    glCompileShader(ShaderId);
-
-    GLint Success;
-    glGetShaderiv(ShaderId, GL_COMPILE_STATUS, &Success);
-    if (!Success) // 0 = false, 1 = true
-    {
-        GLint MaxLogLength;
-        glGetShaderiv(ShaderId, GL_INFO_LOG_LENGTH, &MaxLogLength);
-
-        std::vector<GLchar> InfoLog(MaxLogLength);
-        glGetShaderInfoLog(ShaderId, MaxLogLength, NULL, InfoLog.data());
-
-        std::string LogStr(InfoLog.begin(), InfoLog.end());
-        std::cout << "[ERRO] Shader Compilation failure: " << LogStr;
-        throw std::runtime_error(LogStr);
-    }
-    return ShaderId;
-}
-
-static GLint CreateProgram(GLuint VertexShaderId, GLuint FragmentShaderId) 
-{
-    GLuint ProgramId = glCreateProgram();
-    glAttachShader(ProgramId, VertexShaderId);
-    glAttachShader(ProgramId, FragmentShaderId);
-    glLinkProgram(ProgramId);
-
-    GLint Success;
-    glGetProgramiv(ProgramId, GL_LINK_STATUS, &Success);
-    if (!Success) // 0 = false, 1 = true
-    {
-        GLint MaxLogLength;
-        glGetProgramiv(ProgramId, GL_INFO_LOG_LENGTH, &MaxLogLength);
-
-        std::vector<GLchar> InfoLog(MaxLogLength);
-        glGetProgramInfoLog(ProgramId, MaxLogLength, NULL, InfoLog.data());
-
-        std::string LogStr(InfoLog.begin(), InfoLog.end());
-        std::cout << "[ERRO] Program Linking failure: " << LogStr;
-        throw std::runtime_error(LogStr);
-    }
-
-    glDeleteShader(VertexShaderId);
-    glDeleteShader(FragmentShaderId);
-    return ProgramId;
-}
+#include "OGLProgram.h"
 
 Ex03QuadIndexDraw::Ex03QuadIndexDraw()
 {
-    GLuint VertexShaderId = CreateShader("resources/shaders/triangle.vert", GL_VERTEX_SHADER);
-    GLuint FragmentShaderId = CreateShader("resources/shaders/triangle.frag", GL_FRAGMENT_SHADER);
-    ProgramId = CreateProgram(VertexShaderId, FragmentShaderId);
+    Program = new OGLProgram("resources/shaders/triangle.vert", "resources/shaders/triangle.frag");
 
     std::vector<float> Vertices = {
         /*
@@ -126,7 +55,7 @@ Ex03QuadIndexDraw::Ex03QuadIndexDraw()
     glViewport(0, 0, 800, 600);
     glClearColor(0.5f, 0.5f, 0.5f, 1.f);
     
-    glUseProgram(ProgramId);
+    Program->Bind();
 }
 
 Ex03QuadIndexDraw::~Ex03QuadIndexDraw()
@@ -134,7 +63,8 @@ Ex03QuadIndexDraw::~Ex03QuadIndexDraw()
     glDeleteVertexArrays(1, &Vao);
     glDeleteBuffers(1, &Vbo);
     glDeleteBuffers(1, &Ebo);
-    glDeleteProgram(ProgramId);
+    
+    delete Program;
 }
 
 void Ex03QuadIndexDraw::Update(float InDeltaTime)

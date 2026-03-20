@@ -1,9 +1,9 @@
-#include "XWindow.h"
+#include "OGLWindow.h"
 #include <stdexcept>
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 
-XWindow::XWindow(int InWidth, int InHeight, const std::string& InTitle)
+OGLWindow::OGLWindow(int InWidth, int InHeight, const std::string& InTitle)
     : Width(InWidth), Height(InHeight), Title(InTitle), DeltaTime(0.f)
 {
     if (glfwInit() == GLFW_FALSE) 
@@ -32,12 +32,12 @@ XWindow::XWindow(int InWidth, int InHeight, const std::string& InTitle)
 	}
 }
 
-XWindow::~XWindow() 
+OGLWindow::~OGLWindow() 
 {
     glfwDestroyWindow(RawWindow);
 }
 
-void XWindow::Update() 
+void OGLWindow::Update() 
 {
     static float LastTime = glfwGetTime();
     float CurrentTime = glfwGetTime();
@@ -48,35 +48,35 @@ void XWindow::Update()
 	glfwPollEvents();
 }
 
-bool XWindow::IsOpened() const 
+bool OGLWindow::IsOpened() const 
 {
     return !glfwWindowShouldClose(RawWindow);
 }
 
-void XWindow::SetTitle(const std::string& InTitle)
+void OGLWindow::SetTitle(const std::string& InTitle)
 {
     Title = InTitle;
     glfwSetWindowTitle(RawWindow, Title.c_str());
 }
 
-float XWindow::GetDeltaTime() const
+float OGLWindow::GetDeltaTime() const
 {
     return DeltaTime;
 }
 
-void XWindow::SetVSync(bool InEnabled)
+void OGLWindow::SetVSync(bool InEnabled)
 {
     // Control VSync: 0 = disable, 1 = enabled (default).
     int Value = InEnabled ? 1 : 0;
     glfwSwapInterval(Value);
 }
 
-int XWindow::GetWidth() const
+int OGLWindow::GetWidth() const
 {
     return Width;
 }
 
-int XWindow::GetHeight() const
+int OGLWindow::GetHeight() const
 {
     return Height;
 }
