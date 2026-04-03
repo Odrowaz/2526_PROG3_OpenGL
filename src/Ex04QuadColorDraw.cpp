@@ -3,13 +3,6 @@
 #include "OGLProgram.h"
 #include <cmath>
 
-struct XColor {
-    float R;
-    float G;
-    float B;
-    float A;
-};
-
 Ex04QuadColorDraw::Ex04QuadColorDraw()
 {
     Program = new OGLProgram("resources/shaders/quadcolor.vert", "resources/shaders/quadcolor.frag");
@@ -58,10 +51,12 @@ Ex04QuadColorDraw::Ex04QuadColorDraw()
     
     Program->Bind();
 
-    GLint BaseColorLocation = glGetUniformLocation(Program->ProgramId, "base_color");
+    
+    //GLint BaseColorLocation = glGetUniformLocation(Program->ProgramId, "base_color");
     XColor BaseColor{0.5f, 0.5f, 0.5f, 1.f};
-    const GLfloat* BaseColorPtr = reinterpret_cast<GLfloat*>(&BaseColor);
-    glUniform4fv(BaseColorLocation, 1, BaseColorPtr);
+    //const GLfloat* BaseColorPtr = reinterpret_cast<GLfloat*>(&BaseColor);
+    //glUniform4fv(BaseColorLocation, 1, BaseColorPtr);
+    Program->SetUniform("base_color", BaseColor);
 }
 
 Ex04QuadColorDraw::~Ex04QuadColorDraw()
@@ -86,12 +81,14 @@ void Ex04QuadColorDraw::Update(float InDeltaTime)
     TimedColor.B = cosf(ElapsedTime + 1.1f) * 0.5f + 0.5;
     TimedColor.A = 1.f;
 
-    GLint BaseColorLocation = glGetUniformLocation(Program->ProgramId, "base_color");
-    glUniform4fv(BaseColorLocation, 1,  reinterpret_cast<GLfloat*>(&TimedColor));
+    //GLint BaseColorLocation = glGetUniformLocation(Program->ProgramId, "base_color");
+    //glUniform4fv(BaseColorLocation, 1,  reinterpret_cast<GLfloat*>(&TimedColor));
+    Program->SetUniform("base_color", TimedColor);
 
     float ScaleSpeed = 10.f;
     float Scale = sinf(ElapsedTime * 10.f)  * 0.5f + 0.5;
-    glUniform1f(glGetUniformLocation(Program->ProgramId, "scale"), Scale);
+    //glUniform1f(glGetUniformLocation(Program->ProgramId, "scale"), Scale);
+    Program->SetUniform("scale", Scale);
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
 }

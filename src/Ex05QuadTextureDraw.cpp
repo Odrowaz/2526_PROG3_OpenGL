@@ -4,13 +4,6 @@
 #include <cmath>
 #include "OGLTexture.h"
 
-struct XColor {
-    float R;
-    float G;
-    float B;
-    float A;
-};
-
 /*
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
