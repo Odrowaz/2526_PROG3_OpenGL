@@ -45,6 +45,14 @@ void OGLProgram::SetUniform(const std::string& InName, const glm::mat4& InMatrix
     );
 }
 
+void OGLProgram::SetUniform(const std::string& InName, const glm::vec3& InVector)
+{
+    glUniform3fv(
+        glGetUniformLocation(ProgramId, InName.c_str()),
+        1, &InVector[0]
+    );
+}
+
 std::string ReadFile(const std::string& InPath)
 {
     std::ifstream InputStream(InPath, std::ios::ate);

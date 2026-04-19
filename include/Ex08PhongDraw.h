@@ -3,6 +3,17 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
+struct Camera
+{
+    glm::vec3 Position;
+    glm::vec3 Direction;
+    glm::vec3 Up;
+    float FovY;
+    float AspectRatio;
+    float ZNear;
+    float ZFar;
+} typedef Camera;
+
 class Ex08PhongDraw 
 {
 public:
@@ -10,11 +21,14 @@ public:
     ~Ex08PhongDraw();
     void Update(float InDeltaTime);
 private:
-    class OGLProgram* Program;
-    GLuint Vao;
-    GLuint Vbo;
+    class OGLProgram* TrupProgram;
+    class OGLProgram* CubeProgram;
     class OGLTexture* TrupTexture;
-    size_t TrupVertexCount;
+    class OGLTexture* CubeTexture;
+    class OGLMesh* TrupMesh;
+    class OGLMesh* CubeMesh;
+
     glm::mat4 View;
     glm::mat4 Projection;
+    Camera Cam;
 };

@@ -98,6 +98,7 @@ Ex05QuadTextureDraw::Ex05QuadTextureDraw()
     //BoxTextureId = CreateTexture("resources/textures/wood-box.jpg");
     SmileTexture = new OGLTexture("resources/textures/smile.png");
     BoxTexture = new OGLTexture("resources/textures/wood-box.jpg");
+    RandomTexture = new OGLTexture(200, 200);
 
     //glActiveTexture(GL_TEXTURE0);
     //glBindTexture(GL_TEXTURE_2D, SmileTextureId);
@@ -110,6 +111,7 @@ Ex05QuadTextureDraw::Ex05QuadTextureDraw()
 
     SmileTexture->Bind(GL_TEXTURE0);
     BoxTexture->Bind(GL_TEXTURE1);
+    RandomTexture->Bind(GL_TEXTURE2);
 
     //7. Enable Alpha Blending
     glEnable(GL_BLEND);
@@ -125,11 +127,19 @@ Ex05QuadTextureDraw::~Ex05QuadTextureDraw()
     //glDeleteTextures(1, &BoxTextureId);
     
     delete Program;
+    delete SmileTexture;
+    delete BoxTexture;
+    delete RandomTexture;
 }
 
 void Ex05QuadTextureDraw::Update(float InDeltaTime)
 {
     glClear(GL_COLOR_BUFFER_BIT);
+
+    static float accumulatedTime = 0.f;
+    accumulatedTime += InDeltaTime;
+
+    Program->SetUniform("time", accumulatedTime);
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
 }

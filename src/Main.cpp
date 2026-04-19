@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <string>
 #include <format>
 #include "OGLWindow.h"
@@ -12,6 +13,7 @@
 
 int main() 
 {
+	std::srand(std::time(nullptr));
 	OGLWindow Window{800, 600, "Hello OpenGL"};
 
 	//Ex01TriangleDraw Scene;
@@ -19,6 +21,7 @@ int main()
 	//Ex03QuadIndexDraw Scene;
 	//Ex04QuadColorDraw Scene;
 	//Ex05QuadTextureDraw Scene;
+	
 	//Ex06QuadPerspDraw Scene;
 	//Ex07CubePerspDraw Scene;
 	Ex08PhongDraw Scene;

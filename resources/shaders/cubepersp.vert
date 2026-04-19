@@ -5,26 +5,24 @@ layout (location = 1) in vec2 vert_uv;
 
 out vec2 vert_uv_out;
 
-vec3 perspective(vec3 pos)
+vec4 perspective(vec3 pos)
 {
     float aspect_ratio = 800.f / 600.f;
-    float vertical_fov = 60.f;
+    float vertical_fov = 45.f;
     float fov = tan(radians(vertical_fov * 0.5f));
 
     float near = 0.01f;
     float far = 100.f;
     float range = far - near;
 
-    vec3 result;
+    vec4 result;
 
-    result.x = pos.x / -pos.z;
-    result.y = pos.y / -pos.z;
-
-    result.x /= (fov * aspect_ratio);
-    result.y /= fov;
+    result.x = pos.x * (1/(aspect_ratio * fov));
+    result.y = pos.y * (1/fov);
 
     //RHS -> LHS (NDC)
-    result.z =  ( (-pos.z - near) / range ) * 2.f - 1.f;
+    result.z =  (pos.z * -((far + near) / range)) - ((2.f * far * near) / range);
+    result.w = -pos.z;
     return result;
 }
 
@@ -45,7 +43,6 @@ void main()
     vec3 fixed_vert = vert_pos;
     fixed_vert = rotate_on_y(fixed_vert, angle);
     fixed_vert.z -= 4.f; //translate;
-    fixed_vert = perspective(fixed_vert);
-    gl_Position = vec4(fixed_vert, 1.f);
+    gl_Position = perspective(fixed_vert);
     vert_uv_out = vert_uv;
 }
