@@ -25,8 +25,8 @@ int main()
 	
 	//Ex06QuadPerspDraw Scene;
 	//Ex07CubePerspDraw Scene;
-	//Ex08PhongDraw Scene;
-	Ex09InstancingDraw Scene;
+	Ex08PhongDraw Scene;
+	//Ex09InstancingDraw Scene;
 
 	while(Window.IsOpened()) 
 	{
