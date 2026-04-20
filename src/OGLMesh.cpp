@@ -23,7 +23,7 @@ void OGLMesh::load(const std::vector<MeshPinInfo> &InPinInfo) {
 
 OGLMesh::OGLMesh(const std::string InPath) {
   Obj Mesh;
-  ObjParser::TryParse("resources/models/stormtrooper.obj", Mesh);
+  ObjParser::TryParse(InPath, Mesh);
 
   for (int Index = 0; Index < Mesh.triangles.size(); ++Index) {
     auto &triangle = Mesh.triangles[Index];
