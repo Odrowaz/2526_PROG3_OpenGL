@@ -8,69 +8,215 @@ Ex08PhongDraw::Ex08PhongDraw() {
   glClearColor(0.5f, 0.5f, 0.5f, 1.f);
 
   TrupProgram = new OGLProgram("resources/shaders/phong.vert",
-                           "resources/shaders/phong.frag");
-  CubeProgram = new OGLProgram("resources/shaders/light.vert",
-                               "resources/shaders/light.frag");
+                               "resources/shaders/phong.frag");
+  CubeProgram =
+      new OGLProgram("resources/shaders/light.vert",
+                     "resources/shaders/light.frag", EShaderInputType::POSUV);
 
-  TrupMesh = new OGLMesh("resources/models/stormtrooper.obj");
-  CubeMesh = new OGLMesh(
- std::vector<float> {
-        //Position     //Uvs
-        //FRONT FACE
-        -1, -1,  1,     0, 0,  // bottom-left
-         1, -1,  1,     1, 0,  // bottom-right
-         1,  1,  1,     1, 1,  // top-right  
-        -1,  1,  1,     0, 1,  // top-left
-        -1, -1,  1,     0, 0,  // bottom-left
-         1,  1,  1,     1, 1,  // top-right  
-        
-        // BACK FACE
-         1, -1, -1,     0, 0,  // bottom-left
-        -1, -1, -1,     1, 0,  // bottom-right
-        -1,  1, -1,     1, 1,  // top-right  
-         1,  1, -1,     0, 1,  // top-left
-         1, -1, -1,     0, 0,  // bottom-left
-        -1,  1, -1,     1, 1,  // top-right  
- 
-        //LEFT FACE
-        -1, -1, -1,     0, 0,    //bottom-left
-        -1, -1,  1,     1, 0,    //bottom-right
-        -1,  1,  1,     1, 1,    //top-right
-        -1,  1, -1,     0, 1,    //top-left 
-        -1, -1, -1,     0, 0,    //bottom-left
-        -1,  1,  1,     1, 1,    //top-right
+  OGLMesh TrupMesh("resources/models/stormtrooper.obj");
+  OGLMesh CubeMesh(
+      std::vector<float>{
+          // Position     //Uvs
+          // FRONT FACE
+          -1,
+          -1,
+          1,
+          0,
+          0, // bottom-left
+          1,
+          -1,
+          1,
+          1,
+          0, // bottom-right
+          1,
+          1,
+          1,
+          1,
+          1, // top-right
+          -1,
+          1,
+          1,
+          0,
+          1, // top-left
+          -1,
+          -1,
+          1,
+          0,
+          0, // bottom-left
+          1,
+          1,
+          1,
+          1,
+          1, // top-right
 
-        //RIGHT FACE      
-         1, -1,  1,     0, 0,    //bottom-left
-         1, -1, -1,     1, 0,    //bottom-right
-         1,  1, -1,     1, 1,    //top-right
-         1,  1,  1,     0, 1,    //top-left 
-         1, -1,  1,     0, 0,    //bottom-left
-         1,  1, -1,     1, 1,    //top-right
+          // BACK FACE
+          1,
+          -1,
+          -1,
+          0,
+          0, // bottom-left
+          -1,
+          -1,
+          -1,
+          1,
+          0, // bottom-right
+          -1,
+          1,
+          -1,
+          1,
+          1, // top-right
+          1,
+          1,
+          -1,
+          0,
+          1, // top-left
+          1,
+          -1,
+          -1,
+          0,
+          0, // bottom-left
+          -1,
+          1,
+          -1,
+          1,
+          1, // top-right
 
-        //TOP FACE      
-        -1,  1,  1,     0, 0,    //bottom-left
-         1,  1,  1,     1, 0,    //bottom-right
-         1,  1, -1,     1, 1,    //top-right
-        -1,  1, -1,     0, 1,    //top-left 
-        -1,  1,  1,     0, 0,    //bottom-left
-         1,  1, -1,     1, 1,    //top-right
-         
-        //BOTTOM FACE
-        -1, -1, -1,     0, 0,    //bottom-left
-         1, -1, -1,     1, 0,    //bottom-right
-         1, -1,  1,     1, 1,    //top-right
-        -1, -1,  1,     0, 1,    //top-left 
-        -1, -1, -1,     0, 0,    //bottom-left
-         1, -1,  1,     1, 1,    //top-right
+          // LEFT FACE
+          -1,
+          -1,
+          -1,
+          0,
+          0, // bottom-left
+          -1,
+          -1,
+          1,
+          1,
+          0, // bottom-right
+          -1,
+          1,
+          1,
+          1,
+          1, // top-right
+          -1,
+          1,
+          -1,
+          0,
+          1, // top-left
+          -1,
+          -1,
+          -1,
+          0,
+          0, // bottom-left
+          -1,
+          1,
+          1,
+          1,
+          1, // top-right
+
+          // RIGHT FACE
+          1,
+          -1,
+          1,
+          0,
+          0, // bottom-left
+          1,
+          -1,
+          -1,
+          1,
+          0, // bottom-right
+          1,
+          1,
+          -1,
+          1,
+          1, // top-right
+          1,
+          1,
+          1,
+          0,
+          1, // top-left
+          1,
+          -1,
+          1,
+          0,
+          0, // bottom-left
+          1,
+          1,
+          -1,
+          1,
+          1, // top-right
+
+          // TOP FACE
+          -1,
+          1,
+          1,
+          0,
+          0, // bottom-left
+          1,
+          1,
+          1,
+          1,
+          0, // bottom-right
+          1,
+          1,
+          -1,
+          1,
+          1, // top-right
+          -1,
+          1,
+          -1,
+          0,
+          1, // top-left
+          -1,
+          1,
+          1,
+          0,
+          0, // bottom-left
+          1,
+          1,
+          -1,
+          1,
+          1, // top-right
+
+          // BOTTOM FACE
+          -1,
+          -1,
+          -1,
+          0,
+          0, // bottom-left
+          1,
+          -1,
+          -1,
+          1,
+          0, // bottom-right
+          1,
+          -1,
+          1,
+          1,
+          1, // top-right
+          -1,
+          -1,
+          1,
+          0,
+          1, // top-left
+          -1,
+          -1,
+          -1,
+          0,
+          0, // bottom-left
+          1,
+          -1,
+          1,
+          1,
+          1, // top-right
       },
-      36, {{0, 3, 5, 0}, {1, 2, 5, 3}}
-  );
+      36, EShaderInputType::POSUV);
+
+  TrupPipeLine = new OGLPipeLine(TrupMesh, TrupProgram);
+  CubePipeLine = new OGLPipeLine(CubeMesh, CubeProgram);
 
   TrupTexture =
       new OGLTexture("resources/models/stormtrooper.png", GL_TEXTURE0);
-  CubeTexture =
-      new OGLTexture("resources/textures/wood-box.jpg", GL_TEXTURE1);
+  CubeTexture = new OGLTexture("resources/textures/wood-box.jpg", GL_TEXTURE1);
 
   // 7. Enable Depth Testing
   glEnable(GL_DEPTH_TEST);
@@ -101,13 +247,12 @@ Ex08PhongDraw::~Ex08PhongDraw() {
   delete TrupTexture;
   delete CubeTexture;
 
-  delete TrupMesh;
-  delete CubeMesh;
+  delete TrupPipeLine;
+  delete CubePipeLine;
 }
 
 void Ex08PhongDraw::Update(float InDeltaTime) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 
   static float ElapsedTime = 0.f;
   ElapsedTime += InDeltaTime;
@@ -137,9 +282,9 @@ void Ex08PhongDraw::Update(float InDeltaTime) {
   TrupProgram->Bind();
   TrupProgram->SetUniform("light_pos", LightPos);
 
-  TrupMesh->Draw(Trooper, TrooperMvp, TrupProgram);
-  TrupMesh->Draw(Trooper2, Trooper2Mvp, TrupProgram);
+  TrupPipeLine->Draw(Trooper, TrooperMvp);
+  TrupPipeLine->Draw(Trooper2, Trooper2Mvp);
 
   CubeProgram->Bind();
-  CubeMesh->Draw(Cube, CubeMvp, CubeProgram);
+  CubePipeLine->Draw(Cube, CubeMvp);
 }

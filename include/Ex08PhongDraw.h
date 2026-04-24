@@ -1,4 +1,5 @@
 #pragma once
+#include "OGLPipeLine.h"
 #include <glad/gl.h>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
@@ -25,8 +26,8 @@ private:
     class OGLProgram* CubeProgram;
     class OGLTexture* TrupTexture;
     class OGLTexture* CubeTexture;
-    class OGLMesh* TrupMesh;
-    class OGLMesh* CubeMesh;
+    class OGLPipeLine* TrupPipeLine;
+    class OGLPipeLine* CubePipeLine;
 
     glm::mat4 View;
     glm::mat4 Projection;

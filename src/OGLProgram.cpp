@@ -8,7 +8,8 @@ static std::string ReadFile(const std::string& InPath);
 static GLuint CreateShader(const std::string& InPath, GLuint InShaderType);
 static GLint CreateProgram(GLuint VertexShaderId, GLuint FragmentShaderId);
 
-OGLProgram::OGLProgram(const std::string& InVertexPath, const std::string& InFragmPath)
+OGLProgram::OGLProgram(const std::string& InVertexPath, const std::string& InFragmPath, EShaderInputType InInputType)
+    : InputType(InInputType)
 {
     GLuint VertexShaderId = CreateShader(InVertexPath, GL_VERTEX_SHADER);
     GLuint FragmentShaderId = CreateShader(InFragmPath, GL_FRAGMENT_SHADER);
