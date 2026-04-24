@@ -81,5 +81,6 @@ void OGLMesh::Draw(const glm::mat4 &model, const glm::mat4 &mvp,
   Bind();
   program->SetUniform("model", model);
   program->SetUniform("mvp", mvp);
+  program->SetUniform("normal_matrix", glm::mat3(glm::transpose(glm::inverse(model))));
   glDrawArrays(GL_TRIANGLES, 0, VertexCount);
 };

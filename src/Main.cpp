@@ -1,51 +1,43 @@
 #include <cstdlib>
+#include <ctime>
 #include <string>
-#include <format>
-#include "OGLWindow.h"
-#include "Ex01TriangleDraw.h"
-#include "Ex02QuadDraw.h"
-#include "Ex03QuadIndexDraw.h"
-#include "Ex04QuadColorDraw.h"
-#include "Ex05QuadTextureDraw.h"
-#include "Ex06QuadPerspDraw.h"
-#include "Ex07CubePerspDraw.h"
 #include "Ex08PhongDraw.h"
-#include "Ex09InstancingDraw.h"
+#include <vitasdk.h>
+#include <vitaGL.h>
 
 int main() 
 {
-	std::srand(std::time(nullptr));
-	OGLWindow Window{800, 600, "Hello OpenGL"};
-
-	//Ex01TriangleDraw Scene;
-	//Ex02QuadDraw Scene;
-	//Ex03QuadIndexDraw Scene;
-	//Ex04QuadColorDraw Scene;
-	//Ex05QuadTextureDraw Scene;
+	// Initializing graphics device
+	vglInit(0x800000);
 	
-	//Ex06QuadPerspDraw Scene;
-	//Ex07CubePerspDraw Scene;
+	// Enabling sampling for the analogs
+	sceCtrlSetSamplingMode(SCE_CTRL_MODE_ANALOG_WIDE);
+
+	std::srand(time(nullptr));
+
 	Ex08PhongDraw Scene;
-	//Ex09InstancingDraw Scene;
 
-	while(Window.IsOpened()) 
+	GLfloat deltaTime = 0.0f;
+	GLfloat lastFrame = 0.0f;
+
+	while(true) 
 	{
-		static float TitleUpdateMaxTime = 1.f;
-		static float TitleUpdateElapsed = 0.f;
+		GLfloat currentFrame = (float)sceKernelGetProcessTimeWide() / 1000000.0f;
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
 
-		float DeltaTime = Window.GetDeltaTime();
-		TitleUpdateElapsed += DeltaTime;
-		if (TitleUpdateElapsed >= TitleUpdateMaxTime) 
-		{
-			int Fps = 1.f / DeltaTime;
-			std::string Title = std::format("OpenGL App | DeltaTime: {} - FPS: {}", DeltaTime, Fps);
-			Window.SetTitle(Title);
-			TitleUpdateElapsed -= TitleUpdateMaxTime;
-		}
+		// TitleUpdateElapsed += DeltaTime;
+		// if (TitleUpdateElapsed >= TitleUpdateMaxTime) 
+		// {
+		// 	int Fps = 1.f / DeltaTime;
+		// 	std::string Title = std::format("OpenGL App | DeltaTime: {} - FPS: {}", DeltaTime, Fps);
+		// 	Window.SetTitle(Title);
+		// 	TitleUpdateElapsed -= TitleUpdateMaxTime;
+		// }
 
-		Scene.Update(DeltaTime);
+		Scene.Update(deltaTime);
 		
-		Window.Update();
+		vglSwapBuffers(GL_FALSE);
 	}
 	return 0;	
 }

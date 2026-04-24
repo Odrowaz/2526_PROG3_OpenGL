@@ -1,6 +1,6 @@
 #pragma once
 #include "OGLProgram.h"
-#include <glad/gl.h>
+#include <vitaGL.h>
 #include <glm/glm.hpp>
 #include <vector>
 

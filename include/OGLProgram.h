@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include <glad/gl.h>
+#include <vitaGL.h>
 #include <glm/glm.hpp>
 
 struct XColor {
@@ -17,6 +17,7 @@ public:
     ~OGLProgram();
     void Bind();
     void SetUniform(const std::string& InName, float InValue);
+    void SetUniform(const std::string& InName, int InValue);
     void SetUniform(const std::string& InName, const XColor& InColor);
     void SetUniform(const std::string& InName, const glm::mat4& InMat);
     void SetUniform(const std::string& InName, const glm::vec3& InVector);

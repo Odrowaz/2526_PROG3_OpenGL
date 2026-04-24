@@ -4,15 +4,14 @@
 #include "OGLTexture.h"
 
 Ex08PhongDraw::Ex08PhongDraw() {
-  glViewport(0, 0, 800, 600);
   glClearColor(0.5f, 0.5f, 0.5f, 1.f);
 
-  TrupProgram = new OGLProgram("resources/shaders/phong.vert",
-                           "resources/shaders/phong.frag");
-  CubeProgram = new OGLProgram("resources/shaders/light.vert",
-                               "resources/shaders/light.frag");
+  CubeProgram = new OGLProgram("app0:resources/shaders/light.vert",
+                               "app0:resources/shaders/light.frag");
+  TrupProgram = new OGLProgram("app0:resources/shaders/phong.vert",
+                           "app0:resources/shaders/phong.frag");
 
-  TrupMesh = new OGLMesh("resources/models/stormtrooper.obj");
+  TrupMesh = new OGLMesh("app0:resources/models/stormtrooper.obj");
   CubeMesh = new OGLMesh(
  std::vector<float> {
         //Position     //Uvs
@@ -68,9 +67,16 @@ Ex08PhongDraw::Ex08PhongDraw() {
   );
 
   TrupTexture =
-      new OGLTexture("resources/models/stormtrooper.png", GL_TEXTURE0);
+      new OGLTexture("app0:resources/models/stormtrooper.png", GL_TEXTURE0);
   CubeTexture =
-      new OGLTexture("resources/textures/wood-box.jpg", GL_TEXTURE1);
+      new OGLTexture("app0:resources/textures/wood-box.jpg", GL_TEXTURE1);
+
+
+  TrupProgram->Bind();
+  TrupProgram->SetUniform("trup_tex", 0);
+
+  CubeProgram->Bind();
+  CubeProgram->SetUniform("box_tex", 1);
 
   // 7. Enable Depth Testing
   glEnable(GL_DEPTH_TEST);
@@ -82,7 +88,7 @@ Ex08PhongDraw::Ex08PhongDraw() {
          .Direction = glm::vec3(0, 0, -1),
          .Up = glm::vec3(0, 1, 0),
          .FovY = 60.f,
-         .AspectRatio = 800.f / 600.f,
+         .AspectRatio = 960.f / 544.f,
          .ZNear = 0.01f,
          .ZFar = 100.f};
 
@@ -136,7 +142,7 @@ void Ex08PhongDraw::Update(float InDeltaTime) {
 
   TrupProgram->Bind();
   TrupProgram->SetUniform("light_pos", LightPos);
-
+  
   TrupMesh->Draw(Trooper, TrooperMvp, TrupProgram);
   TrupMesh->Draw(Trooper2, Trooper2Mvp, TrupProgram);
 
